@@ -19,3 +19,12 @@ echo "PATH='./local/bin':$PATH" >> ~/.bashrc
 source ~/.bashrc
 ```
 
+Install node packages
+```
+npm install -d
+```
+
+Run test suite
+```
+npm test
+```
