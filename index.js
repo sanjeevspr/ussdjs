@@ -1,23 +1,32 @@
-const send = (text) => {
-  // var msg = format(text);
-  // this.onSend(msg)
+'use strict';
+const util = require('util');
+const EventEmitter = require('events');
+
+// Convert text to required xml
+const format = (text) => {
+  return text;
 };
 
-const receive = (request) => {
-  // var response = parse(request)
-  // this.onReceive(request)
+function send(text, endSession, callback) {
+  var endSession = endSession ? endSession : false;
+  var callback = callback ? callback : 'localhost';
+  var msg = format(text);
+  this.emit('onSend', msg);
 };
 
-const configure = (options) => {
-  this.onSend = options.onSend;
-  this.onReceive = options.onReceive;
+function receive(request) {
+  var response = parse(request);
+  this.emit('onReceive', response)
 };
 
 const createApplication = (options) => {
-  var app = {};
-  app.configure = configure;
-  if (options != null) {app.configure(options)};
-  app.send = send;
+  function MyEventEmitter() {
+     EventEmitter.call(this);
+  };
+  util.inherits(MyEventEmitter, EventEmitter);
+  var app = new MyEventEmitter();
+  app.on('send', send);
+  app.on('receive', receive);
   return app;
 };
 
